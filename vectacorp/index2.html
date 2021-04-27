@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>JQuery Events -Assignment1 - comm646</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="scripts/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link href="styles/normalize.css" type="text/css" rel="stylesheet">
+  <link href="styles/styles.css" type="text/css" rel="stylesheet">
+  <style>
+    div {   
+      background-color: lightblue;
+      text-align: center;     
+    }
+    .myDiv{
+      border: 5px outset red;
+      background-color: lightblue;    
+      text-align: center;
+    }
+    .mySpan{
+      border: 5px outset red;
+      background-color: lightblue;    
+      text-align: center;
+    }
+    .active {
+      color: red;
+    } 
+  </style>
+
+  <script>
+	  $(document).ready(function() {
+        //alert("Document is ready"); 
+        //Step 16
+		    $('#button1').click(function () {
+          window.alert("Button has been clicked using click function!");
+        });
+        
+        //Step 17
+        $('#button2').bind('click', function () {
+           window.alert("Button has been clicked using bind!");
+        });
+
+         //Step 18
+         $('#button3').on('click', function () {
+            window.alert("Button has been clicked using on function!");
+         });
+
+         //Step 19
+         $(this).find('.pair').on('click', 'button', function () {
+                window.alert("Button has been clicked from button 4 or button 5!");
+         });
+         
+         // Step 20
+         $(".myDiv").css('width',400)
+                    .css('height', 400)
+                    .css('float', 500);
+                           
+         $(this).find('.myDiv').on({
+          mouseenter: function () {
+            window.console.log('Cursor entered the div!');
+            window.alert('Cursor entered the div!');
+          },
+          
+          mouseleave: function () {
+            window.console.log('Cursor left the div!');
+            window.alert('Cursor left the div!');
+          },
+          
+          click: function () {
+            window.console.log('Cursor clicked the div!');
+            window.alert('Cursor clicked the div!');
+          }
+        });
+
+        // Step 21
+
+        $(this).find('.mySpan').on({
+          mouseenter: function () {
+            $("#spArea").text("Cursor entered the div!");
+          },
+          
+          mouseleave: function () {
+            $("#spArea").text("Cursor left the div!");
+          },
+          
+          click: function () {
+            $("#spArea").text("Cursor clicked the div!");
+          }
+        });
+
+        //Step 22
+        $('#moduleMediaLink').click(function(e) {
+          e.preventDefault();
+          $(this).addClass('active');
+          var elementType = $("#moduleMediaLink").prop('nodeName');
+          alert('Node name is.' + elementType);
+        });
+
+        //Step 23
+        var width = $(window).width();
+        var height = $(window).height();
+        $('.windowInfo').text( 'Browser Window width : '+ width + ' , height : ' + height );
+        
+        $( window ).resize(function() {
+           width = $(window).width();
+           height = $(window).height();
+          $('.windowInfo').text( 'Browser Window width : '+ width + ' , height : ' + height );
+        });
+        
+        //Step 24
+        $('#textField').focus(function(){
+          $(this).css('background-color', '#D3D3D3');
+        });
+
+        $('#textField').focusout(function(){
+          $(this).css('background-color', 'white');
+        });
+
+        //Step 25
+        // the handler for the click event of a submit button
+        var validEmail;
+        var validName;
+        var msg;
+
+	      $("#sample_form").submit( function(event) {
+        
+          // prevent the default action of submitting the form 
+          event.preventDefault(); 
+            
+          // validate the email entry with a regular expression
+			    var emailPattern = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}\b/;
+			    var email = $("#email").val().trim();
+            
+          if (email == "") {          
+              validEmail = false;
+			    }  else {        
+                validEmail = true;  
+			    }          
+          $("#email").val(email);
+			
+			    // validate the name entry
+			    var name = $("#name").val().trim();        
+          if (name == "") {
+              validName = false;
+			    } else {           
+              validName = true;
+			    }    
+          $("#name").val(name);		
+        
+       
+          if ( validEmail == false ){
+            $("#email").css('border', 'solid red'); 
+            window.alert("Email Field is required" );		
+          } else {
+            $("#email").css('border', 'solid green'); 		
+          }
+        
+          if ( validName == false ){
+                $("#name").css('border', 'solid red'); 
+                window.alert("Name field is reqired");	
+          } else {
+                $("#name").css('border', 'solid green');
+          }            
+        } 
+      );
+  });
+
+</script>
+ 
+</head>
+<body align='center'>
+  <div class='container'>
+    <br><h1 align='center'>JQuery Events</h1> <br>
+ 
+    <div>
+      <button id="button1">Click Me</button> 
+      <button id="button2">Click Me</button>
+      <button id="button3">Click Me</button>
+    </div>
+    <br>
+  
+    <div class='pair'>
+      <button id="button4">Click Me Btn4</button>
+      <button id="button5">Click Me Btn5</button>
+    </div>
+  
+    <br>
+    <div class='mySpan' align='center'>
+      <h6>Display Text In Span Area</h6>
+      <h6><span id="spArea"></span></h6>
+    </div> 
+    <br>
+    <a id="moduleMediaLink" href="https:modulemedia.com">Visit modulemedia.com!</a>
+    <br><br>
+    <div class='windowInfo'></div>
+    <br>
+    <div>
+      Changes text box color to light gray when in focus otherwise defaults to white<br>
+      <label for="email_1">Text:</label><input type="text" id="textField" name="fname">
+    </div>
+    <br>
+    
+    <div>
+      <h6>Sample Form</h6>
+      <form id="sample_form" name="sample_form">
+                
+      <label for="first_name">Name:</label>
+      <input type="text" id="name" name="name">
+      <br>
+
+      <label for="email">Email:</label>
+        <input type="text" id="email" name="email">
+      <br>
+
+      <input type="submit" id="submit" name="submit" value="Submit">
+    </form>
+  </div>
+  
+  <br><br>
+  <div class='myDiv'><h1>Mouse Effects</h1>
+      Setting height and width to 400px<br>
+  </div> 
+
+  </div>
+  
+</body>
+</html>
